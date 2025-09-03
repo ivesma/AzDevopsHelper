@@ -1,2 +1,9 @@
 # AzDevopsHelper
-A module of classes and functions to help in Azure Devops
+
+Small utilities to help document Azure Pipeline files.
+
+## Install
+
+```powershell
+Install-Module AzDevopsHelper -Scope CurrentUser
+```

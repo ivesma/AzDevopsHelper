@@ -1,0 +1,30 @@
+name: '$(Build.DefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)'
+
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- template: /_pipelines/templates/steps/step-Search-Files-Path.yml
+  parameters:
+    CopyToFolder: false
+    FileNames:
+    - Name: 'AzDevopsHelper.psd1'
+      VarName: 'moduleDef.File.Path'
+    - Name: 'AzDevopsHelper.psm1'
+      VarName: 'module.File.Path'
+    - Name: 'AzDevopsHelper.pssettings'
+      VarName: 'module.Settings.Path'
+    ReturnFullPath: true
+    RootFolder: $(Build.SourcesDirectory)
+    TargetFolder: $(build.artifactstagingdirectory)
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https: //aka.ms/yaml
+    echo "Module Definition Path: $(moduleDef.File.Path)"
+    echo "Module Path: $(module.File.Path)"
+    echo "Module Settings Path: $(module.Settings.Path)"
+  displayName: 'Run a multi-line script'

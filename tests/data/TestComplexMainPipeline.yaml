@@ -1,0 +1,54 @@
+trigger:
+  - main
+
+variables:
+  buildConfiguration: 'Release'
+
+stages:
+  - stage: Build
+    displayName: 'Build Stage'
+    jobs:
+      - job: BuildJob
+        displayName: 'Build Application'
+        steps:
+          - template: templates/install-dependencies.yml
+          - script: |
+              echo "Building the application..."
+              dotnet build --configuration $(buildConfiguration)
+            displayName: 'Build Solution'
+
+  - stage: Test
+    displayName: 'Test Stage'
+    dependsOn: Build
+    jobs:
+      - job: UnitTests
+        displayName: 'Run Unit Tests'
+        steps:
+          - template: templates/run-tests.yml
+            parameters:
+              testType: 'unit'
+          - script: |
+              echo "Unit tests completed."
+            displayName: 'Post Unit Test Step'
+
+      - job: IntegrationTests
+        displayName: 'Run Integration Tests'
+        steps:
+          - template: templates/run-tests.yml
+            parameters:
+              testType: 'integration'
+          - script: |
+              echo "Integration tests completed."
+            displayName: 'Post Integration Test Step'
+
+  - stage: Deploy
+    displayName: 'Deploy Stage'
+    dependsOn: Test
+    jobs:
+      - job: DeployJob
+        displayName: 'Deploy Application'
+        steps:
+          - template: templates/deploy.yml
+          - script: |
+              echo "Deployment finished."
+            displayName: 'Post Deploy Step'

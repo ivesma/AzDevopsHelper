@@ -1,0 +1,20 @@
+@{
+    # Modules that must be installed into the currentuser scope
+    ReqdModules        = @('Logging', 'PSDocs', 'PSDocs.Azure', 'PSScriptTools', 'Az')
+    OptionalModules         = @('Bicep', 'ImportExcel')
+    GlobalRootPathVarPrefix = 'PSModuleRoot'
+    IncludeScripts          = @{
+        'enums'   = @{
+            'isPublic' = $false
+        }
+        'classes' = @{
+            'isPublic' = $false
+        }
+        'private' = @{
+            'isPublic' = $false
+        }
+        'public'  = @{
+            'isPublic' = $true
+        }
+    }
+}
