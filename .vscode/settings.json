@@ -1,7 +1,11 @@
 {
     "cSpell.words": [
         "artifactstagingdirectory",
+        "Clixml",
+        "Creds",
         "Imagesteps",
-        "pssettings"
+        "pscredential",
+        "pssettings",
+        "scriptblock"
     ]
 }

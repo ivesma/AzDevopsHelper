@@ -35,4 +35,4 @@ foreach ($subFolder in (Get-ChildItem $modPath -Directory)) {
     }
 }
 
-Export-ModuleMember -Function ($exFuncNames | Sort-Object -Unique) -Verbose
+Export-ModuleMember -Function ($exFuncNames | Sort-Object -Unique)

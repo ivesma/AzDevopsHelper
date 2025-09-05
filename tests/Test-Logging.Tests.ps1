@@ -1,8 +1,8 @@
-. (Join-Path -Path $PSScriptRoot -ChildPath 'TestHelper.ps1') -Verbose
+. (Join-Path -Path $PSScriptRoot -ChildPath 'TestHelper.ps1')
 #. (Find-TH-TargetFile -SearchPath $PSScriptRoot -SourceFile (Split-Path -Path $MyInvocation.MyCommand.Path -Leaf))
-Import-Module (Find-TH-TargetFile -SearchPath $PSScriptRoot -ModulePath) -Verbose
+Import-Module (Find-TH-TargetFile -SearchPath $PSScriptRoot -ModulePath)
 
-Describe 'Test-Logging' {
+Describe 'Test-Logging' -Tag 'Unit' {
 
     Context 'When Logging module is available' {
         It "Should return $true" {

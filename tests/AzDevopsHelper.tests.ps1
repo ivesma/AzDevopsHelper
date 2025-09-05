@@ -1,11 +1,9 @@
 # Requires -Version 5.0
-Import-Module (Join-Path $PSScriptRoot "/../AzDevopsHelper.psd1" -Resolve) -Force -Verbose
+. (Join-Path -Path $PSScriptRoot -ChildPath 'TestHelper.ps1')
+#. (Find-TH-Target#. (Find-TH-TargetFile -SearchPath $PSScriptRoot -SourceFile (Split-Path -Path $MyInvocation.MyCommand.Path -Leaf))
+Import-Module (Find-TH-TargetFile -SearchPath $PSScriptRoot -ModulePath)
 
-Get-Module AzDevopsHelper -ListAvailable | Select-Object -Property Name,Version,Path
-
-
-
-Describe 'Get-Greeting' {
+Describe 'Get-Greeting' -Tag 'Debug' {
 
     It 'Returns greeting with provided name' -Skip:$false {
         (Get-Greeting -Name 'Martin') | Should -Be 'Hello, Martin! 👋'
