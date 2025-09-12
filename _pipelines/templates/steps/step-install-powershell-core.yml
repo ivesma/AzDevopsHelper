@@ -12,16 +12,15 @@ parameters:
       - MacOS
 
 steps:
-
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-        # Check if PowerShell is installed
-        if command -v pwsh &> /dev/null; then
-            echo "PowerShell is installed."
-        else
-            echo "PowerShell is not installed."
-        fi
-    failOnStderr: true
-    displayName: 'Check if PowerShell is installed'
+    - task: Bash@3
+    inputs:
+        targetType: 'inline'
+        script: |
+            # Check if PowerShell is installed
+            if command -v pwsh &> /dev/null; then
+                echo "PowerShell is installed."
+            else
+                echo "PowerShell is not installed."
+            fi
+        failOnStderr: true
+        displayName: 'Check if PowerShell is installed'
