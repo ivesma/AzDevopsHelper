@@ -24,6 +24,10 @@ stages:
           demands:
           - ps-gallery
           - Agent.OS -equals Linux
+      - template: ./templates/steps/step-install-powershell-core.yml
+        parameters:
+          Version: '7.2.6'
+          osType: $(Agent.OS)
   - stage: 'Build'
     displayName: 'Build Stage'
     dependsOn: 'BuildPrep'
