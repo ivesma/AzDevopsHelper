@@ -1,5 +1,10 @@
 name: '$(Build.DefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)'
 
+parameters:
+  - name: Pwsh.Uninstall
+    type: boolean
+    default: false
+
 trigger:
 - none
 
@@ -25,9 +30,13 @@ stages:
           - ps-gallery
           - Agent.OS -equals Linux
         steps:
+        - ${{ if eq(parameters.Pwsh.Uninstall, true) }}:
+          - template: ./templates/steps/step-uninstall-linux-powershell-core.yml
+        - ${{ else }}:
           - template: ./templates/steps/step-install-linux-powershell-core.yml
             parameters:
               Version: '7.2.6'
+
   - stage: 'Build'
     displayName: 'Build Stage'
     dependsOn: 'BuildPrep'

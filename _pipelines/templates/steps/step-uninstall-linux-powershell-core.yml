@@ -1,0 +1,11 @@
+#parameters:
+steps:
+- task: Bash@3
+    displayName: 'Uninstall PowerShell Core'
+    inputs:
+        targetType: 'inline'
+        script: |
+          # Uninstall PowerShell
+          sudo apt-get remove -y powershell
+        failOnStderr: true
+#    condition: eq('${{ parameters.Uninstall }}', true)
