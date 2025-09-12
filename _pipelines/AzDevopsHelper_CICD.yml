@@ -8,7 +8,9 @@ trigger:
 
 pool:
   name: Imagesteps # Name of a pool.
-  demands: ps-gallery | [ string ] # Demands (for a private pool).
+  demands:
+  - ps-gallery
+  - Agent.OS -equals Linux
 #  vmImage: string # Name of the VM image you want to use; valid only in the Microsoft-hosted pool.
 
 steps:
