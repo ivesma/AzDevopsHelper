@@ -3,9 +3,6 @@ name: '$(Build.DefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)'
 trigger:
 - none
 
-# pool:
-#  vmImage: ubuntu-latest
-
 pool:
   name: Imagesteps # Name of a pool.
   demands:
@@ -13,25 +10,53 @@ pool:
   - Agent.OS -equals Linux
 #  vmImage: string # Name of the VM image you want to use; valid only in the Microsoft-hosted pool.
 
-steps:
-- template: /_pipelines/templates/steps/step-Search-Files-Path.yml
-  parameters:
-    CopyToFolder: false
-    FileNames:
-    - Name: 'AzDevopsHelper.psd1'
-      VarName: 'moduleDef.File.Path'
-    - Name: 'AzDevopsHelper.psm1'
-      VarName: 'module.File.Path'
-    - Name: 'AzDevopsHelper.pssettings'
-      VarName: 'module.Settings.Path'
-    ReturnFullPath: true
-    RootFolder: $(Build.SourcesDirectory)
-    TargetFolder: $(build.artifactstagingdirectory)
+stages:
+  - stage: 'BuildPrep'
+    displayName: 'Build Preparation Stage'
+    jobs:
+      - job: 'Install Required Tools'
+        displayName: 'Install Required Tools'
+        continueOnError: false
+        timeoutInMinutes: 60
+        cancelTimeoutInMinutes: 5
+        pool:
+          name: Imagesteps # Name of a pool.
+          demands:
+          - ps-gallery
+          - Agent.OS -equals Linux
+  - stage: 'Build'
+    displayName: 'Build Stage'
+    dependsOn: 'BuildPrep'
+    jobs:
+      - job: 'BuildJob'
+        displayName: 'Build Job'
+        continueOnError: false
+        timeoutInMinutes: 120
+        cancelTimeoutInMinutes: 5
+        pool:
+          name: Imagesteps # Name of a pool.
+          demands:
+          - ps-gallery
+          - Agent.OS -equals Linux
+        steps:
+        - template: /_pipelines/templates/steps/step-Search-Files-Path.yml
+          parameters:
+            CopyToFolder: false
+            FileNames:
+            - Name: 'AzDevopsHelper.psd1'
+              VarName: 'moduleDef.File.Path'
+            - Name: 'AzDevopsHelper.psm1'
+              VarName: 'module.File.Path'
+            - Name: 'AzDevopsHelper.pssettings'
+              VarName: 'module.Settings.Path'
+            ReturnFullPath: true
+            RootFolder: $(Build.SourcesDirectory)
+            TargetFolder: $(build.artifactstagingdirectory)
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https: //aka.ms/yaml
-    echo "Module Definition Path: $(moduleDef.File.Path)"
-    echo "Module Path: $(module.File.Path)"
-    echo "Module Settings Path: $(module.Settings.Path)"
-  displayName: 'Run a multi-line script'
+        - script: |
+            echo Add other tasks to build, test, and deploy your project.
+            echo See https: //aka.ms/yaml
+            echo "Module Definition Path: $(moduleDef.File.Path)"
+            echo "Module Path: $(module.File.Path)"
+            echo "Module Settings Path: $(module.Settings.Path)"
+          displayName: 'Run a multi-line script'
