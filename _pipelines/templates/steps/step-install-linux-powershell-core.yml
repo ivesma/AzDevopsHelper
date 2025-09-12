@@ -54,5 +54,5 @@ steps:
           else
               echo "PowerShell is not installed."
           fi
-    failOnStderr: true
+        failOnStderr: true
     displayName: 'Check if PowerShell is installed'
