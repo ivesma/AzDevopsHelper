@@ -5,6 +5,6 @@ steps:
         targetType: 'inline'
         script: |
           # Uninstall PowerShell
-          apt-get remove -y powershell
+          sudo apt-get remove -y powershell
         failOnStderr: true
     displayName: 'Uninstall PowerShell Core'
