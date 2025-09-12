@@ -1,5 +1,8 @@
 steps:
   - template: /_pipelines/templates/steps/step-check-linux-powershell-core-is-installed.yml
+  - bash: |
+      echo "Check if variable set $(IsPwshInstalled})"
+    displayName: 'Echo variable IsPwshInstalled'
   - ${{ if eq(variables['IsPwshInstalled'], 'false') }}:
     - task: Bash@3
       inputs:

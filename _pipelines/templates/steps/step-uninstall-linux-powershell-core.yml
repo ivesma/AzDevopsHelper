@@ -1,7 +1,7 @@
 #parameters:
 steps:
   - template: /_pipelines/templates/steps/step-check-linux-powershell-core-is-installed.yml
-  - ${{ if eq(variables['IsPwshInstalled'], 'true') }}:
+  - ${{ if eq('IsPwshInstalled'], 'true') }}:
     - task: Bash@3
       inputs:
           targetType: 'inline'
