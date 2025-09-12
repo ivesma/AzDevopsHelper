@@ -11,5 +11,5 @@ steps:
               "##vso[task.setvariable variable=IsPwshInstalled]false"
               echo "PowerShell is not installed."
           fi
-        failOnStderr: true
+        failOnStderr: false
     displayName: 'Set variable IsPwshInstalled'
