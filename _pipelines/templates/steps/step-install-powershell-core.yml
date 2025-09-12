@@ -12,15 +12,40 @@ parameters:
       - MacOS
 
 steps:
+  - ${{ if eq(parameters.osType, 'Linux') }}:
     - task: Bash@3
-    inputs:
+        inputs:
         targetType: 'inline'
         script: |
-            # Check if PowerShell is installed
-            if command -v pwsh &> /dev/null; then
-                echo "PowerShell is installed."
-            else
-                echo "PowerShell is not installed."
-            fi
-        failOnStderr: true
-        displayName: 'Check if PowerShell is installed'
+        # Check if PowerShell is installed
+        if command -v pwsh &> /dev/null; then
+            echo "PowerShell is installed."
+        else
+            echo "PowerShell is not installed."
+        fi
+    failOnStderr: true
+    displayName: 'Check if PowerShell is installed'
+  - ${{ if eq(parameters.osType, 'Windows') }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Check if PowerShell is installed
+          if (Get-Command pwsh -ErrorAction SilentlyContinue) {
+              Write-Host "PowerShell is installed."
+          } else {
+              Write-Host "PowerShell is not installed."
+          }
+      failOnStderr: true
+      displayName: 'Check if PowerShell is installed'
+  - ${{ if eq(parameters.osType, 'MacOS') }}:
+    - task: Bash@3
+        inputs:
+        targetType: 'inline'
+        script: |
+          # Check if PowerShell is installed
+          if command -v pwsh &> /dev/null; then
+              echo "PowerShell is installed."
+          else
+              echo "PowerShell is not installed."
+          fi
