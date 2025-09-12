@@ -1,7 +1,8 @@
 name: '$(Build.DefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)'
 
 parameters:
-  - name: Pwsh.Uninstall
+  - name: PwshUninstall
+    displayName: 'Uninstall PowerShell Core'
     type: boolean
     default: false
 
@@ -30,7 +31,7 @@ stages:
           - ps-gallery
           - Agent.OS -equals Linux
         steps:
-        - ${{ if eq(parameters.Pwsh.Uninstall, true) }}:
+        - ${{ if eq(parameters.PwshUninstall, true) }}:
           - template: ./templates/steps/step-uninstall-linux-powershell-core.yml
         - ${{ else }}:
           - template: ./templates/steps/step-install-linux-powershell-core.yml
