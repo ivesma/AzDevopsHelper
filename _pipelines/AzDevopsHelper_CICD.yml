@@ -14,7 +14,7 @@ stages:
   - stage: 'BuildPrep'
     displayName: 'Build Preparation Stage'
     jobs:
-      - job: 'Install Required Tools'
+      - job: 'Install_Required_Tools'
         displayName: 'Install Required Tools'
         continueOnError: false
         timeoutInMinutes: 60
