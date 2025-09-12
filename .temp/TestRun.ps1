@@ -5,3 +5,4 @@ Get-Command -Module powershell-yaml
 
 $cred = New-LocalCredential -AppName 'AzDO_Service_Access' -OSType 'Windows'
 $pat = $cred.GetNetworkCredential().Password
+$pat
