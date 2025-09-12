@@ -1,0 +1,15 @@
+steps:
+  - task: Bash@3
+    inputs:
+        targetType: 'inline'
+        script: |
+          # Check if PowerShell is installed
+          if command -v pwsh &> /dev/null; then
+              "##vso[task.setvariable variable=IsPwshInstalled]true"
+              echo "PowerShell is installed."
+          else
+              "##vso[task.setvariable variable=IsPwshInstalled]false"
+              echo "PowerShell is not installed."
+          fi
+        failOnStderr: true
+    displayName: 'Set variable IsPwshInstalled'

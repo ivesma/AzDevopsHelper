@@ -3,6 +3,7 @@
         "artifactstagingdirectory",
         "Clixml",
         "Creds",
+        "dpkg",
         "Imagesteps",
         "pscredential",
         "pssettings",

@@ -1,10 +1,15 @@
 #parameters:
 steps:
-  - task: Bash@3
-    inputs:
-        targetType: 'inline'
-        script: |
-          # Uninstall PowerShell
-          sudo apt-get remove -y powershell
-        failOnStderr: true
-    displayName: 'Uninstall PowerShell Core'
+  - template: /_pipelines/templates/steps/step-check-linux-powershell-core-is-installed.yml
+  - ${{ if eq(variables['IsPwshInstalled'], 'true') }}:
+    - task: Bash@3
+      inputs:
+          targetType: 'inline'
+          script: |
+            # Uninstall PowerShell
+            sudo apt-get remove -y powershell
+          failOnStderr: true
+      displayName: 'Uninstall PowerShell Core'
+    - ${{ else }}:
+      - script: echo "PowerShell Core is not installed, skipping uninstallation."
+        displayName: 'Skip Uninstallation'
