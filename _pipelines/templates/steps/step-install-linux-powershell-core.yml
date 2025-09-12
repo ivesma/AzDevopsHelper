@@ -1,4 +1,3 @@
------
 parameters:
   - name: Version
     type: string
