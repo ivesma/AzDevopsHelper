@@ -28,4 +28,4 @@ steps:
         echo "##vso[task.setvariable variable=${{ parameters.variableName }}]false"
       fi
   - bash: |
-     echo $(${{}})
+     echo $(${{parameters.variableName}})
