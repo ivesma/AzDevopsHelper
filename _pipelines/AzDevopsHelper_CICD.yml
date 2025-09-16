@@ -34,7 +34,7 @@ stages:
         - template: /_pipelines/templates/steps/step-install-linux-ansible-server.yml
         - bash : |
             sudo apt update
-            sudo apt install virtualbox
+            sudo apt install virtualbox -y
             virtualbox --help
           name: "InstallVirtualBox"
           displayName: "Install VirtualBox"
