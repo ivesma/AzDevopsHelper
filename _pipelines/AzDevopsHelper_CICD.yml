@@ -31,47 +31,7 @@ stages:
           - ps-gallery
           - Agent.OS -equals Linux
         steps:
-          # - template: ./templates/steps/step-install-linux-powershell-core.yml
-          - bash: |
-              # ================================================================
-              echo "Starting Ansible installation..."
-
-              # Detect the Linux distribution
-              if [ -f /etc/os-release ]; then
-                  . /etc/os-release
-                  DISTRO=$ID
-              else
-                  echo "Unable to detect Linux distribution. Exiting."
-                  exit 1
-              fi
-
-              # Install Ansible based on the distribution
-              if [[ "$DISTRO" == "ubuntu" || "$DISTRO" == "debian" ]]; then
-                  echo "Detected Debian-based distribution: $DISTRO"
-                  sudo apt update
-                  sudo apt install -y software-properties-common
-                  sudo add-apt-repository --yes --update ppa:ansible/ansible
-                  sudo apt install -y ansible
-              elif [[ "$DISTRO" == "centos" || "$DISTRO" == "fedora" || "$DISTRO" == "rhel" ]]; then
-                  echo "Detected Red Hat-based distribution: $DISTRO"
-                  sudo yum install -y epel-release
-                  sudo yum install -y ansible
-              else
-                  echo "Unsupported Linux distribution: $DISTRO. Exiting."
-                  exit 1
-              fi
-
-              # Verify installation
-              if command -v ansible >/dev/null 2>&1; then
-                  echo "Ansible installed successfully!"
-                  ansible --version
-              else
-                  echo "Ansible installation failed."
-                  exit 1
-              fi
-              # ================================================================
-            name: 'InstallAnsible_Linux'
-            displayName: 'Install Ansible on Linux'
+        - template: /_pipelines/templates/steps/step-install-linux-ansible-server.yml
   #  - stage: 'Build'
   #    displayName: 'Build Stage'
   #    dependsOn: 'BuildPrep'
