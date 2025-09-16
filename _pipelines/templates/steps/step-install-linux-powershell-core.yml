@@ -1,30 +1,12 @@
 steps:
   - template: /_pipelines/templates/steps/step-check-linux-powershell-core-is-installed.yml
+    parameters:
+      variableName: 'IsPwshCoreInstalled'
+    displayName: 'Check if PowerShell Core is installed'
   - bash: |
-      echo "Check if variable set $(IsPwshInstalled)"
-    displayName: 'Echo variable IsPwshInstalled'
-  - ${{ if eq(variables['IsPwshInstalled'], 'false') }}:
-    - task: Bash@3
-      inputs:
-          targetType: 'inline'
-          script: |
-            echo "Set the ubuntu version variable..."
-            VERSION_ID=$(lsb_release -cs)
-            echo "Update the list of packages:..."
-            sudo apt-get update
-            echo "Install pre-requisite packages:"
-            sudo apt-get install -y wget apt-transport-https software-properties-common
-            echo "Download the Microsoft repository GPG keys..."
-            wget -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb
-            echo "Register the Microsoft repository GPG keys..."
-            sudo dpkg -i packages-microsoft-prod.deb
-            echo "Update the list of packages after we added packages.microsoft.com..."
-            sudo apt-get update
-            echo "Install PowerShell..."
-            sudo apt-get install -y powershell
-            pwsh --version
-          failOnStderr: true
-      displayName: 'Check if PowerShell is installed'
-    - ${{ else }}:
-      - script: echo "PowerShell Core is already installed, skipping installation."
-        displayName: 'Skip Installation'
+      if [ '$(IsPwshCoreInstalled)' == 'true' ]; then
+          echo "PowerShell is installed"
+      else
+          echo "PowerShell is not installed"
+      fi
+    displayName: 'Install PowerShell Core'
