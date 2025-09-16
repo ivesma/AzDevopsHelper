@@ -417,4 +417,4 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-.temp/*
+.temp/
