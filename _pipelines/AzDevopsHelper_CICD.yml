@@ -36,7 +36,7 @@ stages:
             sudo apt update
             sudo apt install virtualbox
             virtualbox --help
-          name: "Install VirtualBox"
+          name: "InstallVirtualBox"
           displayName: "Install VirtualBox"
   #  - stage: 'Build'
   #    displayName: 'Build Stage'
