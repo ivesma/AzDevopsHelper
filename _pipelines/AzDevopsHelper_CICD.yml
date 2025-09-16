@@ -70,7 +70,8 @@ stages:
                   exit 1
               fi
               # ================================================================
-            name: 'Install Ansible on Linux'
+            name: 'InstallAnsible_Linux'
+            displayName: 'Install Ansible on Linux'
   #  - stage: 'Build'
   #    displayName: 'Build Stage'
   #    dependsOn: 'BuildPrep'
