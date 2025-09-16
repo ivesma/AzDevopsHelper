@@ -31,41 +31,79 @@ stages:
           - ps-gallery
           - Agent.OS -equals Linux
         steps:
-          - template: ./templates/steps/step-install-linux-powershell-core.yml
+          # - template: ./templates/steps/step-install-linux-powershell-core.yml
+          - bash: |
+              # ================================================================
+              echo "Starting Ansible installation..."
 
-  - stage: 'Build'
-    displayName: 'Build Stage'
-    dependsOn: 'BuildPrep'
-    jobs:
-      - job: 'BuildJob'
-        displayName: 'Build Job'
-        continueOnError: false
-        timeoutInMinutes: 120
-        cancelTimeoutInMinutes: 5
-        pool:
-          name: Imagesteps # Name of a pool.
-          demands:
-          - ps-gallery
-          - Agent.OS -equals Linux
-        steps:
-        - template: /_pipelines/templates/steps/step-Search-Files-Path.yml
-          parameters:
-            CopyToFolder: false
-            FileNames:
-            - Name: 'AzDevopsHelper.psd1'
-              VarName: 'moduleDef.File.Path'
-            - Name: 'AzDevopsHelper.psm1'
-              VarName: 'module.File.Path'
-            - Name: 'AzDevopsHelper.pssettings'
-              VarName: 'module.Settings.Path'
-            ReturnFullPath: true
-            RootFolder: $(Build.SourcesDirectory)
-            TargetFolder: $(build.artifactstagingdirectory)
+              # Detect the Linux distribution
+              if [ -f /etc/os-release ]; then
+                  . /etc/os-release
+                  DISTRO=$ID
+              else
+                  echo "Unable to detect Linux distribution. Exiting."
+                  exit 1
+              fi
 
-        - script: |
-            echo Add other tasks to build, test, and deploy your project.
-            echo See https: //aka.ms/yaml
-            echo "Module Definition Path: $(moduleDef.File.Path)"
-            echo "Module Path: $(module.File.Path)"
-            echo "Module Settings Path: $(module.Settings.Path)"
-          displayName: 'Run a multi-line script'
+              # Install Ansible based on the distribution
+              if [[ "$DISTRO" == "ubuntu" || "$DISTRO" == "debian" ]]; then
+                  echo "Detected Debian-based distribution: $DISTRO"
+                  sudo apt update
+                  sudo apt install -y software-properties-common
+                  sudo add-apt-repository --yes --update ppa:ansible/ansible
+                  sudo apt install -y ansible
+              elif [[ "$DISTRO" == "centos" || "$DISTRO" == "fedora" || "$DISTRO" == "rhel" ]]; then
+                  echo "Detected Red Hat-based distribution: $DISTRO"
+                  sudo yum install -y epel-release
+                  sudo yum install -y ansible
+              else
+                  echo "Unsupported Linux distribution: $DISTRO. Exiting."
+                  exit 1
+              fi
+
+              # Verify installation
+              if command -v ansible >/dev/null 2>&1; then
+                  echo "Ansible installed successfully!"
+                  ansible --version
+              else
+                  echo "Ansible installation failed."
+                  exit 1
+              fi
+              # ================================================================
+            name: 'Install Ansible on Linux'
+  #  - stage: 'Build'
+  #    displayName: 'Build Stage'
+  #    dependsOn: 'BuildPrep'
+  #    jobs:
+  #      - job: 'BuildJob'
+  #        displayName: 'Build Job'
+  #        continueOnError: false
+  #        timeoutInMinutes: 120
+  #        cancelTimeoutInMinutes: 5
+  #        pool:
+  #          name: Imagesteps # Name of a pool.
+  #          demands:
+  #          - ps-gallery
+  #          - Agent.OS -equals Linux
+  #        steps:
+  #        - template: /_pipelines/templates/steps/step-Search-Files-Path.yml
+  #          parameters:
+  #            CopyToFolder: false
+  #            FileNames:
+  #            - Name: 'AzDevopsHelper.psd1'
+  #              VarName: 'moduleDef.File.Path'
+  #            - Name: 'AzDevopsHelper.psm1'
+  #              VarName: 'module.File.Path'
+  #            - Name: 'AzDevopsHelper.pssettings'
+  #              VarName: 'module.Settings.Path'
+  #            ReturnFullPath: true
+  #            RootFolder: $(Build.SourcesDirectory)
+  #            TargetFolder: $(build.artifactstagingdirectory)
+  #
+  #        - script: |
+  #            echo Add other tasks to build, test, and deploy your project.
+  #            echo See https: //aka.ms/yaml
+  #            echo "Module Definition Path: $(moduleDef.File.Path)"
+  #            echo "Module Path: $(module.File.Path)"
+  #            echo "Module Settings Path: $(module.Settings.Path)"
+  #          displayName: 'Run a multi-line script'
