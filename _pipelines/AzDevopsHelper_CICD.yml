@@ -32,6 +32,12 @@ stages:
           - Agent.OS -equals Linux
         steps:
         - template: /_pipelines/templates/steps/step-install-linux-ansible-server.yml
+        - bash : |
+            sudo apt update
+            sudo apt install virtualbox
+            virtualbox --help
+          name: "Install VirtualBox"
+          displayName: "Install VirtualBox"
   #  - stage: 'Build'
   #    displayName: 'Build Stage'
   #    dependsOn: 'BuildPrep'
