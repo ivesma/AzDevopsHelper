@@ -34,7 +34,7 @@ stages:
         - template: /_pipelines/templates/steps/step-install-linux-ansible-server.yml
         - template: /_pipelines/templates/steps/step-install-linux-virtualbox.yml
           parameters:
-            Uninstall: false
+            Uninstall: ${{ parameters.UninstallVBox }}
   #  - stage: 'Build'
   #    displayName: 'Build Stage'
   #    dependsOn: 'BuildPrep'
