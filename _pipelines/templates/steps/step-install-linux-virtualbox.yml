@@ -12,10 +12,8 @@ steps:
         virtualbox --help
       name: "InstallVirtualBox"
       displayName: "Install VirtualBox"
-      enabled: ${{ not parameters.Uninstall }}
   - ${{ if eq(parameters.Uninstall, true) }}:
     - bash: |
         echo "Uninstalling VirtualBox"
       name: "UninstallVirtualBox"
       displayName: "Uninstall VirtualBox"
-      enabled: ${{ parameters.Uninstall }}
