@@ -5,15 +5,17 @@ parameters:
     type: boolean
     default: false
 steps:
-  - bash: |
-      sudo apt update
-      sudo apt install virtualbox -y
-      virtualbox --help
-    name: "InstallVirtualBox"
-    displayName: "Install VirtualBox"
-    enabled: ${{ not parameters.Uninstall }}
-  - bash: |
-      echo "Uninstalling VirtualBox"
-    name: "UninstallVirtualBox"
-    displayName: "Uninstall VirtualBox"
-    enabled: ${{ parameters.Uninstall }}
+  - ${{ if ne(parameters.Uninstall, true) }}:
+    - bash: |
+        sudo apt update
+        sudo apt install virtualbox -y
+        virtualbox --help
+      name: "InstallVirtualBox"
+      displayName: "Install VirtualBox"
+      enabled: ${{ not parameters.Uninstall }}
+  - ${{ if eq(parameters.Uninstall, true) }}:
+    - bash: |
+        echo "Uninstalling VirtualBox"
+      name: "UninstallVirtualBox"
+      displayName: "Uninstall VirtualBox"
+      enabled: ${{ parameters.Uninstall }}
