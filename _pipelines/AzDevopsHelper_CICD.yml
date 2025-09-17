@@ -1,10 +1,10 @@
 name: '$(Build.DefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)'
 
-#parameters:
-#  - name: PwshUninstall
-#    displayName: 'Uninstall PowerShell Core'
-#    type: boolean
-#    default: false
+parameters:
+  - name: UninstallVBox
+    displayName: 'Uninstall VirtualBox'
+    type: boolean
+    default: false
 
 trigger:
 - none
@@ -32,12 +32,9 @@ stages:
           - Agent.OS -equals Linux
         steps:
         - template: /_pipelines/templates/steps/step-install-linux-ansible-server.yml
-        - bash : |
-            sudo apt update
-            sudo apt install virtualbox -y
-            virtualbox --help
-          name: "InstallVirtualBox"
-          displayName: "Install VirtualBox"
+        - template: /_pipelines/templates/steps/step-install-linux-virtualbox.yml
+          parameters:
+            Uninstall: false
   #  - stage: 'Build'
   #    displayName: 'Build Stage'
   #    dependsOn: 'BuildPrep'

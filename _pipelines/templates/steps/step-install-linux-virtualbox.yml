@@ -1,0 +1,19 @@
+# File: _pipelines/templates/steps/step-install-linux-virtualbox.yml
+# --------------------------------------
+parameters:
+  - name: Uninstall
+    type: boolean
+    default: false
+steps:
+  - bash: |
+      sudo apt update
+      sudo apt install virtualbox -y
+      virtualbox --help
+    name: "InstallVirtualBox"
+    displayName: "Install VirtualBox"
+    enabled: ${{ not parameters.Uninstall }}
+  - bash: |
+      echo "Uninstalling VirtualBox"
+    name: "UninstallVirtualBox"
+    displayName: "Uninstall VirtualBox"
+    enabled: ${{ parameters.Uninstall }}
