@@ -1,0 +1,16 @@
+[project]
+name = "py_devops_toolkit"
+version = "0.1.0"
+description = "A modular toolkit of useful Python utilities for automation, diagnostics, and scripting."
+authors = [{ name = "Martin Ives", email = "ivesma@gmail.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = ["requests", "psutil"]
+
+[project.urls]
+Homepage = "https://github.com/martin/utils_toolkit"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
