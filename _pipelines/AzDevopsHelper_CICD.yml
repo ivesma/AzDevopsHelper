@@ -10,7 +10,7 @@ trigger:
 - none
 
 pool:
-  name: Imagesteps # Name of a pool.
+  name: ivesma-sh # Name of a pool.
   demands:
   - ps-gallery
   - Agent.OS -equals Linux
