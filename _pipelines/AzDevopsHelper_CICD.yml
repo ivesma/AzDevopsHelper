@@ -12,7 +12,6 @@ trigger:
 pool:
   name: ivesma-sh # Name of a pool.
   demands:
-  - ps-gallery
   - Agent.OS -equals Linux
 #  vmImage: string # Name of the VM image you want to use; valid only in the Microsoft-hosted pool.
 
